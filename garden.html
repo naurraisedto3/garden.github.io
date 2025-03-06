@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Neon Glowing Flowers</title>
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+.flower {
+  position: absolute;
+  pointer-events: none;
+  animation: grow 1s ease-out forwards, petal-sway 5s infinite linear;
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes petal-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+.petal {
+  position: absolute;
+  background-color: pink;
+  border-radius: 50% 20% 50% 20%;
+  width: 20px;
+  height: 30px;
+  transform-origin: bottom center;
+  box-shadow: 0 0 10px pink, 0 0 20px pink;
+}
+
+.petal:nth-child(1) {
+  transform: rotate(0deg);
+}
+
+.petal:nth-child(2) {
+  transform: rotate(72deg);
+}
+
+.petal:nth-child(3) {
+  transform: rotate(144deg);
+}
+
+.petal:nth-child(4) {
+  transform: rotate(216deg);
+}
+
+.petal:nth-child(5) {
+  transform: rotate(288deg);
+}
+</style>
+</head>
+<body>
+
+<script>
+document.addEventListener('click', function(event) {
+  const x = event.clientX;
+  const y = event.clientY;
+
+  const flower = document.createElement('div');
+  flower.classList.add('flower');
+
+  const size = Math.random() * 30 + 20;
+  const rotation = Math.random() * 360;
+
+  flower.style.width = size + 'px';
+  flower.style.height = size + 'px';
+  flower.style.left = (x - size / 2) + 'px';
+  flower.style.top = (y - size / 2) + 'px';
+  flower.style.transform = `rotate(${rotation}deg)`;
+
+  const petalSize = size * (20 / 40);
+
+  let petalsHTML = '';
+  for (let i = 0; i < 5; i++) {
+    petalsHTML += `<div class="petal" style="width: ${petalSize}px; height: ${petalSize*1.5}px;"></div>`;
+  }
+  flower.innerHTML = petalsHTML;
+
+  const petalColors = ['pink', 'cyan', 'magenta', 'lime'];
+
+  const randomPetalColor = petalColors[Math.floor(Math.random() * petalColors.length)];
+
+  flower.querySelectorAll('.petal').forEach(petal => {
+    petal.style.backgroundColor = randomPetalColor;
+    petal.style.boxShadow = `0 0 10px ${randomPetalColor}, 0 0 20px ${randomPetalColor}`;
+  });
+
+  document.body.appendChild(flower);
+});
+</script>
+
+</body>
+</html>
+
